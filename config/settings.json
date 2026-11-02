@@ -1,0 +1,44 @@
+{
+  "_about": "Every number here is a starting point. Change a value, save, and the next audit uses it.",
+  "crawl": {
+    "max_pages_own_site": 300,
+    "max_pages_competitor": 150,
+    "delay_seconds": 1.0,
+    "timeout_seconds": 20,
+    "max_redirects": 5,
+    "skip_urls_with_query_strings": true,
+    "user_agent": "XEOAuditBot/0.1 (+https://github.com/unfinishedsentenc-1/website-xeo-audit)"
+  },
+  "scoring": {
+    "site_level_share": 0.20,
+    "weights": {"high": 3, "medium": 2, "low": 1}
+  },
+  "thresholds": {
+    "title_min": 30,
+    "title_max": 60,
+    "meta_min": 70,
+    "meta_max": 160,
+    "min_words": 300,
+    "min_internal_links": 3,
+    "max_response_seconds": 1.5,
+    "max_url_length": 115,
+    "answer_min_words": 15,
+    "answer_max_words": 70,
+    "max_paragraph_words": 120,
+    "section_min_words": 60,
+    "section_max_words": 350,
+    "section_share_in_range": 0.7,
+    "freshness_months": 12,
+    "min_outside_sources": 2,
+    "min_data_points": 2,
+    "summary_block_min_words": 600,
+    "raw_html_min_words": 100,
+    "sitemap_sample_size": 50
+  },
+  "generic_link_text": ["click here", "here", "read more", "learn more", "more", "this", "this page", "link", "go", "details", "continue"],
+  "summary_markers": ["summary", "key takeaways", "takeaways", "tl;dr", "tldr", "in short", "at a glance", "the bottom line", "key points"],
+  "article_path_hints": ["blog", "news", "article", "articles", "post", "posts", "resources", "insights", "guide", "guides", "learn", "library", "stories"],
+  "not_outside_sources": ["facebook.com", "twitter.com", "x.com", "linkedin.com", "instagram.com", "youtube.com", "tiktok.com", "pinterest.com", "threads.net"],
+  "ai_search_bots": ["OAI-SearchBot", "ChatGPT-User", "Claude-SearchBot", "PerplexityBot"],
+  "ai_training_bots": ["GPTBot", "ClaudeBot", "Google-Extended"]
+}

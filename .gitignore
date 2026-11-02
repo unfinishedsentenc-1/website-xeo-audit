@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+# Audit results are private. They are never saved in plain form.
+results/
+*.local.json
