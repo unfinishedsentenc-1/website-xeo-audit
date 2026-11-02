@@ -138,6 +138,17 @@ class AuditTest(unittest.TestCase):
                 if loc.get("draft") and issue["check"].startswith("seo.title"):
                     self.assertTrue(30 <= len(loc["draft"]) <= 60, loc["draft"])
 
+    def test_temperature_follows_effort(self):
+        from audit.fixes import temperature
+        s = {"effort_temperature": {"hot_max_minutes": 30, "warm_max_minutes": 240}}
+        self.assertEqual(temperature("10 minutes", 1, False, s)["label"], "Hot")
+        self.assertEqual(temperature("5 minutes per page", 20, False, s)["label"], "Warm")
+        self.assertEqual(temperature("5 minutes per page", 20, True, s)["label"], "Hot")
+        self.assertEqual(temperature("Half a day", 1, False, s)["label"], "Warm")
+        self.assertEqual(temperature("1 to 3 days", 1, False, s)["label"], "Cold")
+        for i in self.site["issues"]:
+            self.assertIn(i["temperature"], ("Hot", "Warm", "Cold"))
+
     def test_screen_text_follows_style_rules(self):
         from audit.fixes import FIXES
         for check_id, f in FIXES.items():

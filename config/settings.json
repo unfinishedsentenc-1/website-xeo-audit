@@ -10,8 +10,12 @@
     "user_agent": "XEOAuditBot/0.1 (+https://github.com/unfinishedsentenc-1/website-xeo-audit)"
   },
   "scoring": {
-    "site_level_share": 0.20,
-    "weights": {"high": 3, "medium": 2, "low": 1}
+    "site_level_share": 0.2,
+    "weights": {
+      "high": 3,
+      "medium": 2,
+      "low": 1
+    }
   },
   "thresholds": {
     "title_min": 30,
@@ -35,10 +39,82 @@
     "raw_html_min_words": 100,
     "sitemap_sample_size": 50
   },
-  "generic_link_text": ["click here", "here", "read more", "learn more", "more", "this", "this page", "link", "go", "details", "continue"],
-  "summary_markers": ["summary", "key takeaways", "takeaways", "tl;dr", "tldr", "in short", "at a glance", "the bottom line", "key points"],
-  "article_path_hints": ["blog", "news", "article", "articles", "post", "posts", "resources", "insights", "guide", "guides", "learn", "library", "stories"],
-  "not_outside_sources": ["facebook.com", "twitter.com", "x.com", "linkedin.com", "instagram.com", "youtube.com", "tiktok.com", "pinterest.com", "threads.net"],
-  "ai_search_bots": ["OAI-SearchBot", "ChatGPT-User", "Claude-SearchBot", "PerplexityBot"],
-  "ai_training_bots": ["GPTBot", "ClaudeBot", "Google-Extended"]
+  "generic_link_text": [
+    "click here",
+    "here",
+    "read more",
+    "learn more",
+    "more",
+    "this",
+    "this page",
+    "link",
+    "go",
+    "details",
+    "continue"
+  ],
+  "summary_markers": [
+    "summary",
+    "key takeaways",
+    "takeaways",
+    "tl;dr",
+    "tldr",
+    "in short",
+    "at a glance",
+    "the bottom line",
+    "key points"
+  ],
+  "article_path_hints": [
+    "blog",
+    "news",
+    "article",
+    "articles",
+    "post",
+    "posts",
+    "resources",
+    "insights",
+    "guide",
+    "guides",
+    "learn",
+    "library",
+    "stories"
+  ],
+  "not_outside_sources": [
+    "facebook.com",
+    "twitter.com",
+    "x.com",
+    "linkedin.com",
+    "instagram.com",
+    "youtube.com",
+    "tiktok.com",
+    "pinterest.com",
+    "threads.net"
+  ],
+  "ai_search_bots": [
+    "OAI-SearchBot",
+    "ChatGPT-User",
+    "Claude-SearchBot",
+    "PerplexityBot"
+  ],
+  "ai_training_bots": [
+    "GPTBot",
+    "ClaudeBot",
+    "Google-Extended"
+  ],
+  "effort_temperature": {
+    "_about": "Hot fixes are quick. Cold fixes take longer. Minutes are the total for all affected pages, unless one template change fixes them.",
+    "hot_max_minutes": 30,
+    "warm_max_minutes": 240
+  },
+  "colors": {
+    "_about": "Screen colors. There is no red anywhere. Problems use orange, cautions use yellow, and low priority uses blue.",
+    "text": "#14201A",
+    "score_number": "#2E3532",
+    "do_first": "#B8641F",
+    "do_next": "#8C6D12",
+    "do_later": "#3E6886",
+    "good": "#1F8A5B",
+    "button": "#93B49E",
+    "link": "#4B7256",
+    "page": "#F6F7F5"
+  }
 }

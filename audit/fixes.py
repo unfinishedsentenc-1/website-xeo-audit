@@ -332,6 +332,36 @@ def priority(weight: int, share: float) -> str:
     return "Do later"
 
 
+def effort_minutes(effort: str) -> tuple[int, bool]:
+    """Turn an effort label into minutes. The flag is True when the effort is per page or per item."""
+    e = effort.lower()
+    per_item = " per " in e
+    nums = [int(n) for n in re.findall(r"\d+", e)] or [1]
+    top = max(nums)
+    if "half a day" in e:
+        return 240, per_item
+    if "day" in e:
+        return top * 480, per_item
+    if "hour" in e:
+        return top * 60, per_item
+    return top, per_item
+
+
+def temperature(effort: str, pages: int, one_template: bool, settings: dict) -> dict:
+    """Hot means quick, warm means a few hours, cold means a day or more."""
+    minutes, per_item = effort_minutes(effort)
+    if per_item and not one_template:
+        minutes *= max(pages, 1)
+    t = settings.get("effort_temperature", {"hot_max_minutes": 30, "warm_max_minutes": 240})
+    if minutes <= t["hot_max_minutes"]:
+        label = "Hot"
+    elif minutes <= t["warm_max_minutes"]:
+        label = "Warm"
+    else:
+        label = "Cold"
+    return {"label": label, "total_minutes": minutes}
+
+
 def template_groups(urls: list[str], total_pages: int) -> list[dict]:
     """Group pages that share one template so one change fixes many pages."""
     if len(urls) >= 3 and total_pages and len(urls) / total_pages >= 0.8:
@@ -389,6 +419,7 @@ def build_issues(site_result: dict, brand: str, settings: dict) -> list[dict]:
                 locations.append(loc)
             groups = template_groups([l["url"] for l in locations], total) if check_id in TEMPLATE_FRIENDLY or len(locations) >= 3 else []
         one_template = any(g.get("template") for g in groups)
+        temp = temperature(info["effort"], len(locations), one_template, settings)
         issues.append(
             {
                 "check": check_id,
@@ -401,6 +432,8 @@ def build_issues(site_result: dict, brand: str, settings: dict) -> list[dict]:
                 "steps": info["steps"],
                 "effort": info["effort"],
                 "who": info["who"],
+                "temperature": temp["label"],
+                "total_minutes": temp["total_minutes"],
                 "priority": priority(weight, share),
                 "pages_affected": len(locations) if scope == "page" else None,
                 "share": round(share, 3),
