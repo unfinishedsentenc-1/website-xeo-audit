@@ -129,9 +129,14 @@ class AuditTest(unittest.TestCase):
             for key in ("what", "why", "steps", "effort", "who", "priority", "locations"):
                 self.assertTrue(i[key], f"{i['check']} missing {key}")
             self.assertIn(i["priority"], ("Do first", "Do next", "Do later"))
-        title = next(i for i in issues if i["check"] == "seo.title_length")
-        draft = title["locations"][0]["draft"]
-        self.assertTrue(30 <= len(draft) <= 60, draft)
+        answer = next(i for i in issues if i["check"] == "aeo.direct_answer")
+        bad = next(l for l in answer["locations"] if "Bad_Page" in l["url"])
+        self.assertIsNone(bad["draft"])  # too little text to draft from
+        self.assertIn("by hand", bad["draft_note"])
+        for issue in issues:
+            for loc in issue["locations"]:
+                if loc.get("draft") and issue["check"].startswith("seo.title"):
+                    self.assertTrue(30 <= len(loc["draft"]) <= 60, loc["draft"])
 
     def test_screen_text_follows_style_rules(self):
         from audit.fixes import FIXES

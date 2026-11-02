@@ -289,7 +289,7 @@ def draft_title(page: dict, brand: str, settings: dict) -> str:
         extra = _fit(first.rstrip("."), t["title_max"] - len(title) - 3)
         if extra:
             title = _fit(f"{base}, {extra}", t["title_max"] - len(suffix)) + suffix
-    return title
+    return title if t["title_min"] <= len(title) <= t["title_max"] else None
 
 
 def draft_meta(page: dict, brand: str, settings: dict) -> str:
@@ -303,7 +303,7 @@ def draft_meta(page: dict, brand: str, settings: dict) -> str:
         text = _fit(" ".join(page.get("paragraphs", [])[:3]), t["meta_max"] - 1)
         if text and not text.endswith("."):
             text += "."
-    return text
+    return text if len(text) >= t["meta_min"] else None
 
 
 def draft_answer(page: dict, brand: str, settings: dict) -> str:
@@ -315,7 +315,8 @@ def draft_answer(page: dict, brand: str, settings: dict) -> str:
         out.append(s)
         if len(words(" ".join(out))) >= 40:
             break
-    return " ".join(out)
+    answer = " ".join(out)
+    return answer if len(words(answer)) >= t["answer_min_words"] else None
 
 
 DRAFTS = {"title": draft_title, "meta": draft_meta, "answer": draft_answer}
@@ -383,6 +384,8 @@ def build_issues(site_result: dict, brand: str, settings: dict) -> list[dict]:
                         loc[k] = r[k]
                 if info.get("draft"):
                     loc["draft"] = DRAFTS[info["draft"]](p, brand, settings)
+                    if not loc["draft"]:
+                        loc["draft_note"] = "This page has too little text to draft from. Write this one by hand using the steps above."
                 locations.append(loc)
             groups = template_groups([l["url"] for l in locations], total) if check_id in TEMPLATE_FRIENDLY or len(locations) >= 3 else []
         one_template = any(g.get("template") for g in groups)
